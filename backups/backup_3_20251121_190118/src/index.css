@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-valorant-red: #FF4655;
+  --color-valorant-black: #0F1923;
+  --color-valorant-white: #ECE8E1;
+  --color-valorant-gray: #8B9BB4;
+
+  /* Semantic Colors */
+  --color-bg-primary: var(--bg-primary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border-primary: var(--border-primary);
+  --color-card-bg: var(--card-bg);
+
+  --font-header: "Oswald", sans-serif;
+  --font-body: "Rajdhani", sans-serif;
+
+  --image-grid-pattern: linear-gradient(to right, #2c3e50 1px, transparent 1px), linear-gradient(to bottom, #2c3e50 1px, transparent 1px);
+}
+
+:root {
+  /* Dark Theme (Default) */
+  --bg-primary: #0F1923;
+  --text-primary: #ECE8E1;
+  --text-secondary: #C1C9D8;
+  /* Lighter for better readability */
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme="light"] {
+  /* Light Theme */
+  --bg-primary: #ECE8E1;
+  --text-primary: #0F1923;
+  --text-secondary: #2C3E50;
+  /* Darker for better readability */
+  --border-primary: rgba(15, 25, 35, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.6);
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] font-body overflow-x-hidden transition-colors duration-300;
+    cursor: none;
+    /* Hide default cursor for custom cursor */
+  }
+
+  p {
+    @apply text-lg font-medium leading-relaxed;
+    /* Increased size and weight */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-header uppercase tracking-wider;
+  }
+}
+
+@layer components {
+  .btn-valorant {
+    @apply relative px-6 py-2 bg-valorant-red text-white font-bold tracking-widest uppercase transition-all duration-300 hover:bg-white hover:text-valorant-black;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+  }
+
+  .card-valorant {
+    @apply bg-white/10 border border-valorant-gray/20 backdrop-blur-sm p-6 relative overflow-hidden;
+  }
+
+  /* Capabilities box - black in light mode, card bg in dark mode */
+  .capability-box {
+    @apply p-6 border transition-all duration-300 relative overflow-hidden;
+    background-color: var(--card-bg);
+    border-color: var(--border-primary);
+  }
+
+  :root[data-theme="light"] .capability-box {
+    background-color: #000000;
+    border-color: #ffffff;
+  }
+
+  .capability-box-text {
+    color: var(--text-primary);
+  }
+
+  :root[data-theme="light"] .capability-box-text {
+    color: #ffffff;
+  }
+
+  .capability-box-desc {
+    color: var(--text-secondary);
+  }
+
+  :root[data-theme="light"] .capability-box-desc {
+    color: #e5e5e5;
+  }
+
+  /* Theme-inverted section - opposite of current theme */
+  .section-inverted {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  :root[data-theme="light"] .section-inverted {
+    background-color: #0F1923;
+    color: #ECE8E1;
+  }
+
+  :root[data-theme="dark"] .section-inverted,
+  :root:not([data-theme]) .section-inverted {
+    background-color: #ECE8E1;
+    color: #0F1923;
+  }
+
+  /* Inverted section text colors */
+  .inverted-text-primary {
+    color: var(--text-primary);
+  }
+
+  :root[data-theme="light"] .inverted-text-primary {
+    color: #ECE8E1;
+  }
+
+  :root[data-theme="dark"] .inverted-text-primary,
+  :root:not([data-theme]) .inverted-text-primary {
+    color: #0F1923;
+  }
+
+  .inverted-text-secondary {
+    color: var(--text-secondary);
+  }
+
+  :root[data-theme="light"] .inverted-text-secondary {
+    color: #C1C9D8;
+  }
+
+  :root[data-theme="dark"] .inverted-text-secondary,
+  :root:not([data-theme]) .inverted-text-secondary {
+    color: #2C3E50;
+  }
+
+  /* Inverted card background */
+  .inverted-card-bg {
+    background-color: var(--card-bg);
+    border-color: var(--border-primary);
+  }
+
+  :root[data-theme="light"] .inverted-card-bg {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  :root[data-theme="dark"] .inverted-card-bg,
+  :root:not([data-theme]) .inverted-card-bg {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(15, 25, 35, 0.1);
+  }
+
+  /* About section boxes - inverted contrast */
+  .about-box {
+    transition: all 0.3s;
+  }
+
+  /* Dark mode - use DARK colors (on light section) */
+  :root[data-theme="dark"] .about-box,
+  :root:not([data-theme]) .about-box {
+    background-color: rgba(15, 25, 35, 0.95);
+    border-color: #ECE8E1;
+  }
+
+  /* Dark mode hover */
+  :root[data-theme="dark"] .about-box:hover,
+  :root:not([data-theme]) .about-box:hover {
+    background-color: rgba(15, 25, 35, 1);
+    border-color: #ff4655;
+  }
+
+  /* Light mode - use LIGHT colors (on dark section) */
+  :root[data-theme="light"] .about-box {
+    background-color: rgba(236, 232, 225, 0.95);
+    border-color: #0F1923;
+  }
+
+  /* Light mode hover */
+  :root[data-theme="light"] .about-box:hover {
+    background-color: rgba(255, 255, 255, 1);
+    border-color: #ff4655;
+  }
+
+  .about-box-text {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  /* Dark mode - use LIGHT text */
+  :root[data-theme="dark"] .about-box-text,
+  :root:not([data-theme]) .about-box-text {
+    color: #ECE8E1;
+  }
+
+  /* Light mode - use DARK text */
+  :root[data-theme="light"] .about-box-text {
+    color: #0F1923;
+  }
+
+  .about-box-desc {
+    font-size: 0.75rem;
+  }
+
+  /* Dark mode - use LIGHT secondary text */
+  :root[data-theme="dark"] .about-box-desc,
+  :root:not([data-theme]) .about-box-desc {
+    color: #C1C9D8;
+  }
+
+  /* Light mode - use DARK secondary text */
+  :root[data-theme="light"] .about-box-desc {
+    color: #2C3E50;
+  }
+}
+
+.clip-path-slant {
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Infinite scroll animation for logo loop */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.hover\:pause-animation:hover {
+  animation-play-state: paused;
+}
+
+/* Electric Border Animation */
+@keyframes electric-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px #ff4655, 0 0 10px #ff4655, inset 0 0 5px #ff4655;
+    border-color: #ff4655;
+  }
+
+  50% {
+    box-shadow: 0 0 20px #ff4655, 0 0 30px #ff4655, inset 0 0 10px #ff4655;
+    border-color: #ff8a95;
+  }
+}
+
+.electric-border {
+  animation: electric-pulse 1.5s infinite alternate;
+  border: 2px solid #ff4655;
+}
+
+/* New Dark Red Glow Theme for Skills & Projects */
+/* New Theme for Skills & Projects - Inverted */
+.valorant-card-red {
+  @apply relative p-6 border-2 transition-all duration-300 overflow-hidden;
+  /* No static glow */
+}
+
+.valorant-card-red:hover {
+  box-shadow: 0 0 25px rgba(255, 70, 85, 0.6);
+  /* Glow only on hover */
+  /* Border color inherits (White/Black) instead of turning red */
+}
+
+/* Light Mode - Black Boxes */
+:root[data-theme="light"] .valorant-card-red {
+  background-color: #000000;
+  color: #FFFFFF;
+  border-color: #000000;
+}
+
+/* Dark Mode - Light Boxes */
+:root[data-theme="dark"] .valorant-card-red,
+:root:not([data-theme]) .valorant-card-red {
+  background-color: #ECE8E1;
+  color: #000000;
+  border-color: #000000;
+}
+
+/* Ensure text visibility */
+.valorant-card-red span,
+.valorant-card-red p,
+.valorant-card-red li,
+.valorant-card-red svg {
+  color: inherit;
+  /* Inherit from parent based on theme */
+}
+
+.valorant-card-red h3,
+.valorant-card-red h4 {
+  color: #FF4655;
+  /* Project Names, Skill Categories, Company Name in Red */
+}
+
+/* Job Title specific target */
+.valorant-card-red h4+p {
+  color: #FF4655;
+  opacity: 1;
+  /* Ensure visibility */
+}
+
+/* Increase heading boldness */
+.valorant-card-red h3,
+.valorant-card-red h4 {
+  font-weight: 900;
+}
+
+/* Improve description readability */
+.valorant-card-red p,
+.valorant-card-red li {
+  font-size: 1.1rem;
+  font-weight: 700;
+  opacity: 1;
+  line-height: 1.5;
+}
+
+/* EXP Watermark */
+.valorant-card-red .text-9xl {
+  font-weight: 900;
+  opacity: 0.5;
+  /* Increased visibility for both modes */
+  color: #FF4655;
+  /* Red Watermark */
+}
+
+/* Progress Bar Specifics */
+.valorant-card-red .skill-progress-bar {
+  background-color: #FF4655;
+  /* Valorant Red */
+}
+
+.valorant-card-red:hover .skill-progress-bar {
+  background-color: #FFFFFF;
+  /* White on hover */
+}
+
+
+/* Tag & Tech Stack Visibility */
+.valorant-card-red .font-mono {
+  border-color: inherit !important;
+  /* Use the theme's border color */
+  background-color: transparent !important;
+  opacity: 1 !important;
+}
+
+/* Specific overrides for the tags to ensure contrast */
+:root[data-theme="light"] .valorant-card-red .font-mono {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  color: #FFFFFF;
+}
+
+:root[data-theme="dark"] .valorant-card-red .font-mono,
+:root:not([data-theme]) .valorant-card-red .font-mono {
+  border-color: rgba(0, 0, 0, 0.5) !important;
+  color: #000000;
+}
+
+/* Animated Background Grid Pulse */
+@keyframes gridPulse {
+
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+
+  50% {
+    opacity: 0.15;
+  }
+}

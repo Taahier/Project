@@ -1,0 +1,223 @@
+{
+    "header": {
+        "title": "Taahier Mahammad",
+        "tagline": "Forging Digital Fortresses. Architecting Innovation.",
+        "description": "I don't just write code; I engineer secure, scalable realities. Specializing in the convergence of high-performance backend systems and offensive-grade cybersecurity, I build solutions that stand the test of time and threat.",
+        "sections": [
+            "Intro",
+            "Education",
+            "Skills",
+            "Projects",
+            "Contact"
+        ]
+    },
+    "about": {
+        "name": "Taahier Mhd",
+        "intro_image": "images/intro_image.jpg",
+        "summary": [
+            "I am a Full-Stack Engineer and Cybersecurity Strategist dedicated to the art of digital resilience. My work operates at the bleeding edge where robust software architecture meets uncompromising security.",
+            "From architecting mission-critical backend infrastructures to orchestrating advanced threat simulations, I possess the dual capability to build systems that perform and defend systems that endure."
+        ],
+        "expertise": {
+            "application_development": "High-Performance Architecture: Engineering fault-tolerant, enterprise-grade systems utilizing Java, J2EE, and advanced database optimization.",
+            "web_development": "Immersive Digital Experiences: Developing lightning-fast, responsive web applications that merge aesthetic precision with technical excellence.",
+            "cloud": "Cloud Infrastructure Engineering: Deploying scalable, resilient solutions across AWS and Azure ecosystems.",
+            "cybersecurity": "Offensive & Defensive Security: Mastering the full security lifecycle—from vulnerability assessment and penetration testing to identity governance."
+        }
+    },
+    "mission_objectives": [
+        {
+            "title": "Fortify & Protect",
+            "description": "To build digital infrastructures that are resilient by design, anticipating threats before they materialize."
+        },
+        {
+            "title": "Innovate Relentlessly",
+            "description": "To push the boundaries of what's possible, leveraging emerging tech to solve complex problems."
+        },
+        {
+            "title": "Precision Engineering",
+            "description": "To deliver code that is not just functional, but optimized, scalable, and maintainable."
+        },
+        {
+            "title": "User-Centric Design",
+            "description": "To create interfaces that are intuitive, responsive, and aesthetically superior."
+        },
+        {
+            "title": "Continuous Learning",
+            "description": "To stay ahead of the curve by mastering emerging technologies and evolving security landscapes."
+        },
+        {
+            "title": "Collaborative Excellence",
+            "description": "To foster team synergy through clear communication, knowledge sharing, and collective problem-solving."
+        }
+    ],
+    "what_i_offer": [
+        {
+            "title": "Enterprise Backend Solutions",
+            "description": "Architecting high-availability, fault-tolerant server-side systems using Java and J2EE."
+        },
+        {
+            "title": "Vulnerability Assessment",
+            "description": "Conducting rigorous penetration testing and security audits to identify and mitigate risks."
+        },
+        {
+            "title": "Full-Stack Web Applications",
+            "description": "End-to-end development of dynamic, responsive web platforms using React and modern CSS."
+        },
+        {
+            "title": "Cloud Infrastructure",
+            "description": "Designing and deploying scalable cloud environments on AWS and Azure."
+        }
+    ],
+    "ready_for_team": [
+        "Backend Engineering",
+        "Cloud Architecture",
+        "Cybersecurity Operations"
+    ],
+    "education": {
+        "degree": [
+            {
+                "title": "Bachelor of Technology",
+                "institute": "Sri Venkateswara Engineering College, Tirupathi",
+                "branch": "Electrical and Electronics Engineering"
+            },
+            {
+                "title": "Diploma in Engineering",
+                "institute": "Government Polytechnic College, Ananthapur",
+                "branch": "Electrical and Electronics Engineering"
+            },
+            {
+                "title": "Secondary School Certificate",
+                "institute": "Mourya High School, Tadipatri"
+            }
+        ],
+        "certifications": [
+            "AWS Certified Solutions Architect – Associate",
+            "Microsoft Certified: Azure Fundamentals",
+            "(ISC)² Certified in Cybersecurity",
+            "Cisco Certified Network Associate (CCNA)",
+            "Oracle OCI - AI for Cloud Applications",
+            "Java Full Stack Development"
+        ]
+    },
+    "skills": {
+        "programming_languages": [
+            "Java",
+            "Python",
+            "C/C++"
+        ],
+        "web_development": [
+            "HTML5",
+            "CSS3",
+            "JavaScript (ES6+)",
+            "React"
+        ],
+        "databases": [
+            "MySQL",
+            "Oracle DB"
+        ],
+        "cloud_&_devops": [
+            "Amazon Web Services (AWS)",
+            "Microsoft Azure",
+            "Oracle Cloud (OCI)",
+            "Git",
+            "GitHub",
+            "CI/CD Pipelines"
+        ],
+        "frameworks": [
+            "J2EE",
+            "Bootstrap",
+            "Tailwind CSS"
+        ],
+        "cybersecurity": [
+            "AppSec & DevSecOps",
+            "VAPT (Vulnerability Assessment)",
+            "Identity & Access Management (IAM)",
+            "Network Defense"
+        ]
+    },
+    "projects": {
+        "internship": {
+            "company": "Languify",
+            "role": "Software Developer Intern",
+            "description": [
+                "Engineered a secure, console-based Banking Management System using Java and MySQL, ensuring ACID compliance.",
+                "Optimized database performance by 40% through advanced indexing strategies and query tuning.",
+                "Fortified system integrity by implementing AES encryption for sensitive data and rigorous input validation protocols."
+            ]
+        },
+        "applications": [
+            {
+                "name": "Voice-Activated AI Assistant",
+                "description": "Developed a local LLM-powered automation tool, integrating speech recognition for seamless, hands-free system control and task execution.",
+                "tech": [
+                    "Java",
+                    "Local LLMs",
+                    "Speech Recognition API"
+                ]
+            },
+            {
+                "name": "Academic Record Infrastructure",
+                "description": "Built a comprehensive student data management system to streamline administrative tracking, grade processing, and information retrieval.",
+                "tech": [
+                    "Java",
+                    "MySQL",
+                    "JDBC"
+                ]
+            }
+        ],
+        "web": [
+            {
+                "name": "FoodMunch Platform",
+                "description": "Designed a high-conversion restaurant interface featuring intuitive navigation, responsive layouts, and dynamic content flow.",
+                "tech": [
+                    "HTML5",
+                    "CSS3",
+                    "JavaScript"
+                ]
+            },
+            {
+                "name": "Professional Portfolio",
+                "description": "A fully responsive, brand-aligned personal website showcasing technical competencies with modern design principles.",
+                "tech": [
+                    "React",
+                    "Tailwind CSS",
+                    "Framer Motion"
+                ]
+            }
+        ],
+        "cybersecurity_iot": [
+            {
+                "name": "Threat Simulation & Detection",
+                "description": "Conducted controlled brute-force attack simulations using Hydra and Kali Linux to calibrate and validate SIEM detection rules.",
+                "tech": [
+                    "Kali Linux",
+                    "Hydra",
+                    "Python",
+                    "SIEM"
+                ]
+            },
+            {
+                "name": "IoT Theft Detection System",
+                "description": "Prototyped an Arduino-based utility monitoring solution with GSM alerts and SQL logging to identify and report real-time anomalies.",
+                "tech": [
+                    "C++",
+                    "Arduino",
+                    "GSM Module",
+                    "SQL"
+                ]
+            }
+        ]
+    },
+    "contact": {
+        "message": "Ready to deploy excellence? Let's architect your next breakthrough.",
+        "links": {
+            "LinkedIn": "https://www.linkedin.com/in/taahier/",
+            "Email": "mailto:taahier75@gmail.com",
+            "WhatsApp": "https://wa.me/917702100311",
+            "GitHub": "https://github.com/taahier",
+            "Resume": "https://drive.google.com/file/d/1-OMCjqSpkfJ89LWV3_xjPoya69ePylxy/view",
+            "Twitter": "https://twitter.com/your_twitter_handle"
+        }
+    }
+}
