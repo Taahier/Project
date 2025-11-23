@@ -15,8 +15,9 @@
         "name": "Taahier Mhd",
         "intro_image": "images/intro_image.jpg",
         "summary": [
-            "I am a Full-Stack Engineer and Cybersecurity Strategist dedicated to the art of digital resilience. My work operates at the bleeding edge where robust software architecture meets uncompromising security.",
-            "From architecting mission-critical backend infrastructures to orchestrating advanced threat simulations, I possess the dual capability to build systems that perform and defend systems that endure."
+            "I am a Full-Stack Engineer and Cybersecurity Strategist dedicated to the art of digital resilience. My work operates at the bleeding edge where robust software architecture meets uncompromising security. With expertise spanning from frontend frameworks to backend infrastructure, I craft solutions that are both elegant and impenetrable.",
+            "From architecting mission-critical backend infrastructures to orchestrating advanced threat simulations, I possess the dual capability to build systems that perform and defend systems that endure. My approach combines offensive security mindset with defensive engineering principles, ensuring every line of code serves a strategic purpose.",
+            "Whether it's developing high-performance web applications, securing cloud infrastructures, or conducting penetration testing, I bring a holistic perspective that bridges the gap between development and security. This unique intersection allows me to anticipate vulnerabilities during the design phase and build resilience into the foundation of every project."
         ],
         "expertise": {
             "application_development": "High-Performance Architecture: Engineering fault-tolerant, enterprise-grade systems utilizing Java, J2EE, and advanced database optimization.",

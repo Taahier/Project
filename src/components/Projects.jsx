@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SectionHeader from './SectionHeader';
 import data from '../data.json';
-import { ExternalLink, Github, ArrowUpRight, X, Folder } from 'lucide-react';
+import { ExternalLink, Github, ArrowUpRight, X, Folder, Terminal, Activity, ShieldCheck } from 'lucide-react';
 import ParallaxSection from './animations/ParallaxSection';
 
 
@@ -30,28 +30,66 @@ const Projects = () => {
                             <span className="w-8 h-px bg-valorant-red"></span>
                             Professional Experience
                         </h3>
-                        <div>
-                            <div className="valorant-card-red group relative">
-                                {/* Decorative Corners */}
-                                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-black/50"></div>
-                                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-black/50"></div>
-                                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-black/50"></div>
-                                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-black/50"></div>
+                        <div className="w-full">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="relative bg-[#0F1923] border-l-4 border-valorant-red overflow-hidden group"
+                            >
+                                {/* Background Elements */}
+                                <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%] animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                                <div className="absolute top-0 right-0 p-8 opacity-5 text-9xl font-header font-bold pointer-events-none select-none text-white">EXP</div>
 
-                                <div className="absolute top-0 right-0 p-4 opacity-10 text-9xl font-header font-bold pointer-events-none">EXP</div>
-                                <div className="relative z-10">
-                                    <h4 className="text-3xl font-header uppercase">{projects.internship.company}</h4>
-                                    <p className="text-[var(--text-secondary)] font-body font-bold uppercase tracking-widest mb-4">{projects.internship.role}</p>
-                                    <ul className="space-y-2 opacity-80">
-                                        {projects.internship.description.map((desc, i) => (
-                                            <li key={i} className="flex items-start gap-2">
-                                                <span className="text-valorant-red mt-1.5 w-1.5 h-1.5 bg-valorant-red rotate-45 block"></span>
-                                                {desc}
-                                            </li>
-                                        ))}
-                                    </ul>
+                                <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12">
+                                    {/* Left Column: Company & Role */}
+                                    <div className="md:w-1/3 flex flex-col justify-between shrink-0 border-b md:border-b-0 md:border-r border-white/10 pb-6 md:pb-0 md:pr-8">
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Activity size={16} className="text-valorant-red animate-pulse" />
+                                                <span className="text-xs font-mono text-valorant-red uppercase tracking-widest">Active Deployment</span>
+                                            </div>
+                                            <h4 className="text-4xl md:text-5xl font-header uppercase text-white leading-none mb-2 group-hover:text-valorant-red transition-colors duration-300">
+                                                {projects.internship.company}
+                                            </h4>
+                                            <p className="text-white/60 font-mono text-sm uppercase tracking-wider">
+                                                {projects.internship.role}
+                                            </p>
+                                        </div>
+
+                                        <div className="mt-6 md:mt-auto">
+                                            <div className="flex items-center gap-2 text-white/40 text-xs font-mono uppercase">
+                                                <ShieldCheck size={14} />
+                                                <span>Security Clearance: Level 3</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Right Column: Details */}
+                                    <div className="md:w-2/3">
+                                        <div className="flex items-center gap-2 mb-6 text-white/80">
+                                            <Terminal size={18} className="text-valorant-red" />
+                                            <span className="font-header uppercase text-lg tracking-wide">Operational Objectives</span>
+                                        </div>
+
+                                        <ul className="grid grid-cols-1 gap-4">
+                                            {projects.internship.description.map((desc, i) => (
+                                                <li key={i} className="flex items-start gap-4 group/item">
+                                                    <span className="mt-1.5 w-1.5 h-1.5 bg-valorant-red rotate-45 shrink-0 group-hover/item:bg-white transition-colors duration-300 shadow-[0_0_5px_#ff4655]"></span>
+                                                    <p className="text-white/70 font-body text-lg leading-relaxed group-hover/item:text-white transition-colors duration-300">
+                                                        {desc}
+                                                    </p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+
+                                {/* Interactive Corner */}
+                                <div className="absolute bottom-0 right-0 w-8 h-8 bg-valorant-red/10 border-t border-l border-valorant-red/50 flex items-center justify-center">
+                                    <div className="w-1 h-1 bg-valorant-red rounded-full"></div>
+                                </div>
+                            </motion.div>
                         </div>
                     </div>
 

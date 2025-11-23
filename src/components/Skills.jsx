@@ -85,44 +85,149 @@ const Skills = () => {
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {Object.entries(skills).map(([category, items], index) => (
-                            <div
+                    {/* INNOVATIVE CIRCULAR SKILL METERS */}
+                    <div className="space-y-16">
+                        {Object.entries(skills).map(([category, items], catIndex) => (
+                            <motion.div
                                 key={category}
-                                className="valorant-card-red group"
+                                initial={{ opacity: 0, x: catIndex % 2 === 0 ? -50 : 50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8 }}
+                                viewport={{ once: true }}
+                                className="relative"
                             >
-                                {/* Decorative Corners */}
-                                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-black/50"></div>
-                                <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-black/50"></div>
-                                <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-black/50"></div>
-                                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-black/50"></div>
-
-                                <h3 className="text-xl font-header uppercase mb-6 border-b-2 border-black/20 pb-2 relative z-10">
-                                    {category.replace(/_/g, ' ')}
-                                </h3>
-
-                                <div className="space-y-4 relative z-10">
-                                    {items.map((skill, i) => (
-                                        <div key={skill} className="group/skill">
-                                            <div className="flex justify-between items-center mb-1">
-                                                <span className="font-body font-bold uppercase tracking-wider text-sm flex items-center gap-2">
-                                                    {skillIcons[skill] && React.cloneElement(skillIcons[skill], { size: 16, className: "opacity-80" })}
-                                                    {skill}
+                                {/* Category Header - Massive */}
+                                <div className="mb-12">
+                                    <div className="flex items-center gap-6">
+                                        <div className="w-2 h-24 bg-[#B80000]"></div>
+                                        <div>
+                                            <h3 className="text-6xl font-josefin font-black uppercase text-[var(--text-primary)] leading-none">
+                                                {category.replace(/_/g, ' ')}
+                                            </h3>
+                                            <div className="flex items-center gap-2 mt-2">
+                                                <div className="w-3 h-3 bg-[#B80000] animate-pulse"></div>
+                                                <span className="text-[var(--text-primary)]/60 font-mono text-sm tracking-widest">
+                                                    {items.length} SKILLS LOADED
                                                 </span>
-                                                <span className="text-xs font-mono opacity-70">
-                                                    {Math.floor(Math.random() * (100 - 85) + 85)}%
-                                                </span>
-                                            </div>
-                                            <div className="h-1.5 w-full bg-black/20 rounded-full overflow-hidden">
-                                                <div
-                                                    style={{ width: `${Math.floor(Math.random() * (100 - 85) + 85)}%` }}
-                                                    className="h-full skill-progress-bar transition-colors duration-300"
-                                                ></div>
                                             </div>
                                         </div>
-                                    ))}
+                                    </div>
                                 </div>
-                            </div>
+
+                                {/* Bold Skill Cards Grid */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    {items.map((skill, skillIndex) => {
+                                        const proficiency = Math.floor(Math.random() * (100 - 85) + 85);
+
+                                        // Alternating colors: Black, White, Red
+                                        const bgColors = ['#000000', '#FFFFFF', '#B80000'];
+                                        const textColors = ['#FFFFFF', '#000000', '#FFFFFF'];
+                                        const accentColors = ['#B80000', '#B80000', '#FFFFFF'];
+                                        const colorIndex = skillIndex % 3;
+
+                                        return (
+                                            <motion.div
+                                                key={skill}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: skillIndex * 0.03, type: "spring" }}
+                                                viewport={{ once: true }}
+                                                whileHover={{ scale: 1.03, y: -5 }}
+                                                className="relative p-6 cursor-pointer group overflow-hidden"
+                                                style={{ backgroundColor: bgColors[colorIndex] }}
+                                            >
+                                                {/* Diagonal Accent Stripe */}
+                                                <div
+                                                    className="absolute top-0 right-0 w-24 h-24 opacity-10"
+                                                    style={{
+                                                        background: accentColors[colorIndex],
+                                                        clipPath: 'polygon(100% 0, 100% 100%, 0 0)'
+                                                    }}
+                                                ></div>
+
+                                                {/* Skill Number Badge */}
+                                                <div
+                                                    className="absolute top-2 left-2 w-8 h-8 flex items-center justify-center font-black text-xs"
+                                                    style={{
+                                                        backgroundColor: accentColors[colorIndex],
+                                                        color: colorIndex === 1 ? '#FFFFFF' : (colorIndex === 2 ? '#B80000' : '#000000')
+                                                    }}
+                                                >
+                                                    {String(skillIndex + 1).padStart(2, '0')}
+                                                </div>
+
+                                                {/* Icon */}
+                                                <div className="mb-4 mt-6">
+                                                    {skillIcons[skill] && React.cloneElement(skillIcons[skill], {
+                                                        size: 32,
+                                                        style: { color: accentColors[colorIndex] }
+                                                    })}
+                                                </div>
+
+                                                {/* Skill Name */}
+                                                <h4
+                                                    className="font-black uppercase text-2xl mb-3 tracking-wider leading-tight"
+                                                    style={{ color: textColors[colorIndex] }}
+                                                >
+                                                    {skill}
+                                                </h4>
+
+                                                {/* Proficiency Display */}
+                                                <div className="flex items-end justify-between">
+                                                    <div>
+                                                        <div
+                                                            className="text-4xl font-black font-mono leading-none"
+                                                            style={{ color: accentColors[colorIndex] }}
+                                                        >
+                                                            {proficiency}
+                                                        </div>
+                                                        <div
+                                                            className="text-xs font-mono uppercase tracking-widest mt-1"
+                                                            style={{ color: textColors[colorIndex], opacity: 0.6 }}
+                                                        >
+                                                            Proficiency
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Vertical Progress Bar */}
+                                                    <div
+                                                        className="w-2 h-16"
+                                                        style={{ backgroundColor: `${textColors[colorIndex]}20` }}
+                                                    >
+                                                        <motion.div
+                                                            initial={{ height: 0 }}
+                                                            whileInView={{ height: `${proficiency}%` }}
+                                                            transition={{ delay: skillIndex * 0.03 + 0.3, duration: 1 }}
+                                                            viewport={{ once: true }}
+                                                            className="w-full"
+                                                            style={{ backgroundColor: accentColors[colorIndex] }}
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* Corner Accent */}
+                                                <div
+                                                    className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4"
+                                                    style={{ borderColor: accentColors[colorIndex] }}
+                                                ></div>
+
+                                                {/* Hover Glow */}
+                                                <div
+                                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                                                    style={{
+                                                        boxShadow: `inset 0 0 30px ${accentColors[colorIndex]}40`
+                                                    }}
+                                                ></div>
+                                            </motion.div>
+                                        );
+                                    })}
+                                </div>
+
+                                {/* Decorative Line */}
+                                {catIndex < Object.entries(skills).length - 1 && (
+                                    <div className="mt-16 h-px bg-gradient-to-r from-transparent via-[#B80000] to-transparent"></div>
+                                )}
+                            </motion.div>
                         ))}
                     </div>
                 </div>

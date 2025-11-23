@@ -2,22 +2,16 @@ import { useState, useEffect } from 'react';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
-const DecodingText = ({ text, className = '', speed = 50 }) => {
+const DecodingText = ({ text, className = '', speed = 50, loop = false, loopDelay = 4000 }) => {
     const [displayText, setDisplayText] = useState('');
     const [isDecoding, setIsDecoding] = useState(false);
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: false, margin: '-100px' }); // Changed to false
+    const isInView = useInView(ref, { once: false, margin: '-100px' });
+    const loopTimeoutRef = useRef(null);
 
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
 
-    useEffect(() => {
-        if (!isInView) {
-            // Reset when out of view
-            setDisplayText('');
-            setIsDecoding(false);
-            return;
-        }
-
+    const startDecoding = () => {
         if (isDecoding) return;
 
         setIsDecoding(true);
@@ -40,17 +34,45 @@ const DecodingText = ({ text, className = '', speed = 50 }) => {
                     .join('')
             );
 
-            iteration += 1 / 3; // Slower progression for more dramatic effect
+            iteration += 1 / 3;
 
             if (iteration >= maxIterations) {
                 clearInterval(interval);
                 setDisplayText(text);
                 setIsDecoding(false);
+
+                // Schedule next loop if enabled
+                if (loop && isInView) {
+                    loopTimeoutRef.current = setTimeout(() => {
+                        startDecoding();
+                    }, loopDelay);
+                }
             }
         }, speed);
 
         return () => clearInterval(interval);
-    }, [isInView, text, speed]);
+    };
+
+    useEffect(() => {
+        if (!isInView) {
+            setDisplayText(text);
+            setIsDecoding(false);
+            if (loopTimeoutRef.current) {
+                clearTimeout(loopTimeoutRef.current);
+            }
+            return;
+        }
+
+        // Start initial decoding
+        const cleanup = startDecoding();
+
+        return () => {
+            if (cleanup) cleanup();
+            if (loopTimeoutRef.current) {
+                clearTimeout(loopTimeoutRef.current);
+            }
+        };
+    }, [isInView]);
 
     return (
         <span ref={ref} className={className}>

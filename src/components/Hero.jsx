@@ -69,10 +69,10 @@ const Hero = () => {
                             </h2>
                         </motion.div>
 
-                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-header font-bold uppercase leading-none mb-6 !text-valorant-red">
-                            <DecodingText text={header.title.split(' ')[0]} speed={40} />
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-josefin font-bold uppercase leading-none mb-6 !text-valorant-red">
+                            <DecodingText text={header.title.split(' ')[0]} speed={40} loop={true} loopDelay={6000} />
                             <br />
-                            <DecodingText text={header.title.split(' ')[1]} speed={40} />
+                            <DecodingText text={header.title.split(' ')[1]} speed={40} loop={true} loopDelay={6000} />
                         </h1>
 
                         <div className="text-white text-lg md:text-xl max-w-xl mb-8 font-body border-l-4 border-valorant-red pl-6 leading-relaxed">
