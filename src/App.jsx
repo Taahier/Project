@@ -11,10 +11,12 @@ import Contact from './components/Contact';
 import Education from './components/Education';
 import Lenis from 'lenis';
 import SystemBoot from './components/animations/SystemBoot';
-import GrainOverlay from './components/animations/GrainOverlay';
+import { gsap } from 'gsap';
+import { StaggeredMenu } from './components/animations/StaggeredMenu';
 
 const Home = () => (
   <>
+
     <Hero />
     <About />
     <Skills />
@@ -25,7 +27,7 @@ const Home = () => (
   </>
 );
 
-import CardNav from './components/animations/CardNav';
+
 import logo from '/vite.svg'; // Placeholder logo
 
 function App() {
@@ -46,6 +48,9 @@ function App() {
 
   // Smooth Scrolling with Lenis - Agency Level (Heavy AF)
   useEffect(() => {
+    // Disable Lenis on mobile devices to improve performance
+    if (window.innerWidth < 768) return;
+
     const lenis = new Lenis({
       duration: 2.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -75,34 +80,20 @@ function App() {
     setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
-  const items = [
-    {
-      label: "Identity",
-      bgColor: "#0f172a", // Slate 900
-      textColor: "#fff",
-      links: [
-        { label: "Intro", ariaLabel: "Introduction", href: "/#intro" },
-        { label: "About Me", ariaLabel: "About Me", href: "/#about" }
-      ]
-    },
-    {
-      label: "Arsenal",
-      bgColor: "#b91c1c", // Red 700
-      textColor: "#fff",
-      links: [
-        { label: "Skills", ariaLabel: "My Skills", href: "/#skills" },
-        { label: "Services", ariaLabel: "What I Offer", href: "/#services" }
-      ]
-    },
-    {
-      label: "Mission",
-      bgColor: "#000000",
-      textColor: "#fff",
-      links: [
-        { label: "Projects", ariaLabel: "My Projects", href: "/#projects" },
-        { label: "Education", ariaLabel: "Education History", href: "/education" }
-      ]
-    }
+  const staggeredMenuItems = [
+    { label: "Intro", link: "/#intro" },
+    { label: "About Me", link: "/#about" },
+    { label: "Skills", link: "/#skills" },
+    { label: "Services", link: "/#services" },
+    { label: "Projects", link: "/#projects" },
+    { label: "Education", link: "/education" },
+    { label: "Contact", link: "/#contact" },
+  ];
+
+  const socialItems = [
+    { label: 'Twitter', link: 'https://twitter.com' },
+    { label: 'GitHub', link: 'https://github.com' },
+    { label: 'LinkedIn', link: 'https://linkedin.com' }
   ];
 
   const [isLoading, setIsLoading] = useState(true);
@@ -110,34 +101,31 @@ function App() {
   return (
     <Router>
       <SystemBoot onComplete={() => setIsLoading(false)} />
-      <GrainOverlay />
       {!isLoading && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
-          className="bg-[var(--bg-primary)] min-h-screen transition-colors duration-300"
-        >
-          {/* <Navbar /> */}
-          <CardNav
-            logo={logo}
-            logoAlt="Taahier Logo"
-            items={items}
-            baseColor="#fff"
-            menuColor="#000"
-            buttonBgColor="#ff4655" // Valorant Red
-            buttonTextColor="#fff"
-            primaryButtonText="Connect !"
-            primaryButtonLink="/#contact"
-            ease="power3.out"
+        <>
+          <StaggeredMenu
+            items={staggeredMenuItems}
+            socialItems={socialItems}
+            menuButtonColor={theme === 'dark' ? '#fff' : '#000'}
+            openMenuButtonColor="#000"
+            accentColor="#ff4655"
             theme={theme}
             onToggleTheme={toggleTheme}
+            isFixed={true}
           />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/education" element={<Education />} />
-          </Routes>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
+            className="bg-[var(--bg-primary)] min-h-screen transition-colors duration-300"
+          >
+            {/* <Navbar /> */}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/education" element={<Education />} />
+            </Routes>
+          </motion.div>
+        </>
       )}
     </Router>
   );

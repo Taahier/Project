@@ -2,7 +2,7 @@ import React from 'react';
 
 const GrainOverlay = () => {
     return (
-        <div className="fixed inset-0 z-[9998] pointer-events-none opacity-[0.03] mix-blend-overlay overflow-hidden">
+        <div className="fixed inset-0 z-[9998] pointer-events-none opacity-[0.03] mix-blend-overlay overflow-hidden hidden md:block">
             <div className="absolute inset-[-200%] w-[400%] h-[400%] animate-grain bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
             <style jsx>{`
                 @keyframes grain {
