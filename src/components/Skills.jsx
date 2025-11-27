@@ -9,6 +9,163 @@ import {
 } from 'react-icons/fa';
 
 
+const SkillCategory = ({ category, items, catIndex, skillIcons }) => {
+    const containerRef = React.useRef(null);
+    const isEven = catIndex % 2 === 0;
+
+    // Track scroll progress for this category - same as agent profile section
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "start start"]
+    });
+
+    // Transform scroll progress to x position
+    // 0 (not in view) -> 0% (covered)
+    // 1 (fully in view) -> ±105% (revealed)
+    const redX = useTransform(
+        scrollYProgress,
+        [0, 1],
+        ["0%", isEven ? "105%" : "-105%"]
+    );
+
+    return (
+        <div ref={containerRef} className="relative overflow-hidden mb-16 last:mb-0">
+            {/* SCROLL-BASED REVEAL OVERLAY - Same as Agent Profile */}
+            <motion.div
+                style={{
+                    x: redX,
+                    background: `linear-gradient(${isEven ? '135deg' : '-135deg'}, #B80000 0%, #FF0000 50%, #B80000 100%)`,
+                    zIndex: 20
+                }}
+                className="absolute inset-0 pointer-events-none"
+            />
+
+            {/* Category Header */}
+            <div className="mb-12 overflow-hidden relative z-10">
+                <div className="flex items-center gap-6">
+                    {/* Animated Red Bar */}
+                    <motion.div
+                        initial={{ scaleY: 0 }}
+                        whileInView={{ scaleY: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        viewport={{ once: false }}
+                        className="w-2 h-24 bg-[#B80000] origin-top"
+                    />
+                    <div>
+                        <h3 className="text-6xl font-josefin font-black uppercase text-[var(--text-primary)] leading-none">
+                            {category.replace(/_/g, ' ')}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-2">
+                            <motion.div
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                                className="w-3 h-3 bg-[#B80000]"
+                            />
+                            <span className="text-[var(--text-primary)]/60 font-mono text-sm tracking-widest">
+                                {items.length} SKILLS LOADED
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Skills Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
+                {items.map((skill, skillIndex) => {
+                    const proficiency = Math.floor(Math.random() * (100 - 85) + 85);
+                    const bgColors = ['#000000', '#FFFFFF', '#B80000'];
+                    const textColors = ['#FFFFFF', '#000000', '#FFFFFF'];
+                    const accentColors = ['#B80000', '#B80000', '#FFFFFF'];
+                    const colorIndex = skillIndex % 3;
+
+                    return (
+                        <motion.div
+                            key={skill}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: false, margin: "-50px" }}
+                            transition={{ duration: 0.5, delay: skillIndex * 0.1 }}
+                            whileHover={{ scale: 1.03, y: -5 }}
+                            className="relative p-6 cursor-pointer group overflow-hidden"
+                            style={{ backgroundColor: bgColors[colorIndex] }}
+                        >
+                            {/* Hover Effects */}
+                            <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%] animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                            {/* Corner Accent */}
+                            <div
+                                className="absolute top-0 right-0 w-24 h-24 opacity-10"
+                                style={{
+                                    background: accentColors[colorIndex],
+                                    clipPath: 'polygon(100% 0, 100% 100%, 0 0)'
+                                }}
+                            />
+
+                            {/* Skill Number */}
+                            <div
+                                className="absolute top-2 left-2 w-8 h-8 flex items-center justify-center font-black text-xs"
+                                style={{
+                                    backgroundColor: accentColors[colorIndex],
+                                    color: colorIndex === 1 ? '#FFFFFF' : (colorIndex === 2 ? '#B80000' : '#000000')
+                                }}
+                            >
+                                {String(skillIndex + 1).padStart(2, '0')}
+                            </div>
+
+                            {/* Icon */}
+                            <div className="mb-4 mt-6">
+                                {skillIcons[skill] && React.cloneElement(skillIcons[skill], {
+                                    size: 32,
+                                    style: { color: accentColors[colorIndex] }
+                                })}
+                            </div>
+
+                            {/* Skill Name */}
+                            <h4
+                                className="font-black uppercase text-2xl mb-3 tracking-wider leading-tight"
+                                style={{ color: textColors[colorIndex] }}
+                            >
+                                {skill}
+                            </h4>
+
+                            {/* Proficiency */}
+                            <div className="flex items-end justify-between">
+                                <div>
+                                    <div
+                                        className="text-4xl font-black font-mono leading-none"
+                                        style={{ color: accentColors[colorIndex] }}
+                                    >
+                                        {proficiency}
+                                    </div>
+                                    <div
+                                        className="text-xs font-mono uppercase tracking-widest mt-1"
+                                        style={{ color: textColors[colorIndex], opacity: 0.6 }}
+                                    >
+                                        Proficiency
+                                    </div>
+                                </div>
+                                <div
+                                    className="w-2 h-16 relative overflow-hidden"
+                                    style={{ backgroundColor: `${textColors[colorIndex]}20` }}
+                                >
+                                    <motion.div
+                                        initial={{ height: 0 }}
+                                        whileInView={{ height: `${proficiency}%` }}
+                                        viewport={{ once: false }}
+                                        transition={{ duration: 1, delay: 0.2 }}
+                                        className="w-full absolute bottom-0"
+                                        style={{ backgroundColor: accentColors[colorIndex] }}
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
 const Skills = () => {
     const { skills } = data;
 
@@ -54,9 +211,9 @@ const Skills = () => {
                 <div className="absolute right-0 top-1/4 w-96 h-96 bg-valorant-red rounded-full blur-3xl"></div>
             </div>
 
-            {/* AGENCY-LEVEL BACKGROUND ANIMATIONS LAYER - OPTIMIZED & VISIBLE */}
+            {/* AGENCY-LEVEL BACKGROUND ANIMATIONS LAYER */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
-                {/* Randomly Appearing Glowing Boxes - MORE VISIBLE */}
+                {/* Randomly Appearing Glowing Boxes */}
                 {[...Array(20)].map((_, i) => {
                     const randomLeft = (i * 13 + 5) % 85;
                     const randomTop = (i * 19 + 10) % 75;
@@ -91,7 +248,7 @@ const Skills = () => {
                     );
                 })}
 
-                {/* Floating Geometric Shapes - HIGHLY VISIBLE */}
+                {/* Floating Geometric Shapes */}
                 {[...Array(5)].map((_, i) => (
                     <motion.div
                         key={`shape-${i}`}
@@ -119,7 +276,7 @@ const Skills = () => {
                     />
                 ))}
 
-                {/* Diagonal Scan Lines - VISIBLE */}
+                {/* Diagonal Scan Lines */}
                 {[...Array(3)].map((_, i) => (
                     <motion.div
                         key={`scan-${i}`}
@@ -144,7 +301,7 @@ const Skills = () => {
                     />
                 ))}
 
-                {/* Floating Particles - VISIBLE */}
+                {/* Floating Particles */}
                 {[...Array(8)].map((_, i) => {
                     const randomX1 = (i * 13) % 50 - 25;
                     const randomX2 = (i * 17) % 100 - 50;
@@ -176,7 +333,7 @@ const Skills = () => {
                     );
                 })}
 
-                {/* Gradient Orbs with Breathing Animation */}
+                {/* Gradient Orbs */}
                 <motion.div
                     animate={{
                         scale: [1, 1.3, 1],
@@ -218,7 +375,7 @@ const Skills = () => {
                     }}
                 />
 
-                {/* Corner Accent Frames - VISIBLE */}
+                {/* Corner Accent Frames */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 0.4, scale: 1 }}
@@ -248,7 +405,7 @@ const Skills = () => {
                     style={{ borderColor: 'var(--text-primary)' }}
                 />
 
-                {/* Vertical Scan Effect - VISIBLE */}
+                {/* Vertical Scan Effect */}
                 <motion.div
                     animate={{
                         y: ['0%', '100%']
@@ -285,7 +442,6 @@ const Skills = () => {
                                 title={skill}
                             >
                                 <span className="text-valorant-red">
-                                    {/* Clone element to change size prop if it's a React element */}
                                     {React.isValidElement(skillIcons[skill])
                                         ? React.cloneElement(skillIcons[skill], { size: 48 })
                                         : <span className="font-header uppercase tracking-wider text-xl font-bold">{skill}</span>
@@ -313,314 +469,15 @@ const Skills = () => {
 
                 {/* INNOVATIVE CIRCULAR SKILL METERS */}
                 <div className="space-y-16">
-                    {Object.entries(skills).map(([category, items], catIndex) => {
-                        // Define unique reveal animations for each category
-                        const revealAnimations = [
-                            // 0: Slide Right (Programming Languages)
-                            {
-                                initial: { x: '0%' },
-                                animate: { x: '100%' },
-                                transition: { duration: 1.2, ease: "easeInOut" }
-                            },
-                            // 1: Slide Left (Web Development)
-                            {
-                                initial: { x: '0%' },
-                                animate: { x: '-100%' },
-                                transition: { duration: 1, ease: "easeOut" }
-                            },
-                            // 2: Slide Down (Databases)
-                            {
-                                initial: { y: '0%' },
-                                animate: { y: '100%' },
-                                transition: { duration: 1.1, ease: "easeInOut" }
-                            },
-                            // 3: Diagonal Wipe (Cloud Platforms)
-                            {
-                                initial: { x: '0%', y: '0%' },
-                                animate: { x: '100%', y: '100%' },
-                                transition: { duration: 1.3, ease: "easeOut" }
-                            },
-                            // 4: Scale Out (Cybersecurity)
-                            {
-                                initial: { scale: 1 },
-                                animate: { scale: 0, opacity: 0 },
-                                transition: { duration: 1.2, ease: "easeInOut" }
-                            }
-                        ];
-
-                        const currentReveal = revealAnimations[catIndex % revealAnimations.length];
-
-                        return (
-                            <motion.div
-                                key={category}
-                                initial={{ filter: 'blur(10px)' }}
-                                whileInView={{ filter: 'blur(0px)' }}
-                                transition={{ duration: 1, ease: "easeOut" }}
-                                viewport={{ once: true }}
-                                className="relative overflow-hidden"
-                            >
-                                {/* SLIDE REVEAL OVERLAY - WIPES AWAY */}
-                                <motion.div
-                                    initial={currentReveal.initial}
-                                    whileInView={currentReveal.animate}
-                                    transition={{ ...currentReveal.transition, delay: 0.2 }}
-                                    viewport={{ once: true }}
-                                    className="absolute inset-0 z-20 pointer-events-none"
-                                    style={{
-                                        background: `linear-gradient(135deg, #B80000 0%, #FF0000 50%, #B80000 100%)`
-                                    }}
-                                />
-                                {/* Category Header - Massive with Staggered Animation */}
-                                <div className="mb-12 overflow-hidden">
-                                    <div className="flex items-center gap-6">
-                                        {/* Animated Red Bar */}
-                                        <motion.div
-                                            initial={{ scaleY: 0 }}
-                                            whileInView={{ scaleY: 1 }}
-                                            transition={{ duration: 0.6, delay: 0.2 }}
-                                            viewport={{ once: true }}
-                                            className="w-2 h-24 bg-[#B80000] origin-top"
-                                        />
-                                        <div>
-                                            {/* Staggered Word Animation for Category Title */}
-                                            <h3 className="text-6xl font-josefin font-black uppercase text-[var(--text-primary)] leading-none">
-                                                {category.replace(/_/g, ' ').split(' ').map((word, i) => (
-                                                    <motion.span
-                                                        key={i}
-                                                        initial={{ opacity: 0, y: 50 }}
-                                                        whileInView={{ opacity: 1, y: 0 }}
-                                                        transition={{
-                                                            duration: 0.5,
-                                                            delay: 0.3 + (i * 0.1),
-                                                            type: "spring",
-                                                            stiffness: 100
-                                                        }}
-                                                        viewport={{ once: true }}
-                                                        className="inline-block mr-4"
-                                                    >
-                                                        {word}
-                                                    </motion.span>
-                                                ))}
-                                            </h3>
-                                            <motion.div
-                                                initial={{ opacity: 0, x: -20 }}
-                                                whileInView={{ opacity: 1, x: 0 }}
-                                                transition={{ duration: 0.5, delay: 0.6 }}
-                                                viewport={{ once: true }}
-                                                className="flex items-center gap-2 mt-2"
-                                            >
-                                                <motion.div
-                                                    animate={{ scale: [1, 1.2, 1] }}
-                                                    transition={{ duration: 1.5, repeat: Infinity }}
-                                                    className="w-3 h-3 bg-[#B80000]"
-                                                />
-                                                <span className="text-[var(--text-primary)]/60 font-mono text-sm tracking-widest">
-                                                    {items.length} SKILLS LOADED
-                                                </span>
-                                            </motion.div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Bold Skill Cards Grid */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {items.map((skill, skillIndex) => {
-                                        const proficiency = Math.floor(Math.random() * (100 - 85) + 85);
-
-                                        // Alternating colors: Black, White, Red
-                                        const bgColors = ['#000000', '#FFFFFF', '#B80000'];
-                                        const textColors = ['#FFFFFF', '#000000', '#FFFFFF'];
-                                        const accentColors = ['#B80000', '#B80000', '#FFFFFF'];
-                                        const colorIndex = skillIndex % 3;
-
-                                        return (
-                                            <motion.div
-                                                key={skill}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: skillIndex * 0.03, type: "spring" }}
-                                                viewport={{ once: true }}
-                                                whileHover={{ scale: 1.03, y: -5 }}
-                                                className="relative p-6 cursor-pointer group overflow-hidden"
-                                                style={{ backgroundColor: bgColors[colorIndex] }}
-                                            >
-                                                {/* COLOR SLIDE REVEAL OVERLAY */}
-                                                <motion.div
-                                                    initial={{ x: '-100%' }}
-                                                    whileInView={{ x: '100%' }}
-                                                    transition={{
-                                                        duration: 0.8,
-                                                        delay: skillIndex * 0.05,
-                                                        ease: "easeInOut"
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    className="absolute inset-0 z-20 pointer-events-none"
-                                                    style={{
-                                                        background: `linear-gradient(90deg, transparent 0%, ${accentColors[colorIndex]} 50%, transparent 100%)`,
-                                                        opacity: 0.3
-                                                    }}
-                                                />
-
-                                                {/* SHIMMER EFFECT ON HOVER */}
-                                                <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%,transparent_100%)] bg-[length:250%_250%] animate-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                                                {/* Diagonal Accent Stripe */}
-                                                <motion.div
-                                                    initial={{ scale: 0, rotate: 0 }}
-                                                    whileInView={{ scale: 1, rotate: 0 }}
-                                                    transition={{ duration: 0.5, delay: skillIndex * 0.03 + 0.2 }}
-                                                    viewport={{ once: true }}
-                                                    className="absolute top-0 right-0 w-24 h-24 opacity-10 origin-top-right"
-                                                    style={{
-                                                        background: accentColors[colorIndex],
-                                                        clipPath: 'polygon(100% 0, 100% 100%, 0 0)'
-                                                    }}
-                                                />
-
-                                                {/* Skill Number Badge with Rotation */}
-                                                <motion.div
-                                                    initial={{ scale: 0, rotate: -180 }}
-                                                    whileInView={{ scale: 1, rotate: 0 }}
-                                                    transition={{
-                                                        duration: 0.6,
-                                                        delay: skillIndex * 0.03 + 0.1,
-                                                        type: "spring",
-                                                        stiffness: 200
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    whileHover={{ rotate: 360 }}
-                                                    className="absolute top-2 left-2 w-8 h-8 flex items-center justify-center font-black text-xs"
-                                                    style={{
-                                                        backgroundColor: accentColors[colorIndex],
-                                                        color: colorIndex === 1 ? '#FFFFFF' : (colorIndex === 2 ? '#B80000' : '#000000')
-                                                    }}
-                                                >
-                                                    {String(skillIndex + 1).padStart(2, '0')}
-                                                </motion.div>
-
-                                                {/* Icon with Bounce */}
-                                                <motion.div
-                                                    initial={{ scale: 0, opacity: 0 }}
-                                                    whileInView={{ scale: 1, opacity: 1 }}
-                                                    transition={{
-                                                        duration: 0.4,
-                                                        delay: skillIndex * 0.03 + 0.3,
-                                                        type: "spring",
-                                                        stiffness: 300
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    className="mb-4 mt-6"
-                                                >
-                                                    {skillIcons[skill] && React.cloneElement(skillIcons[skill], {
-                                                        size: 32,
-                                                        style: { color: accentColors[colorIndex] }
-                                                    })}
-                                                </motion.div>
-
-                                                {/* Skill Name with Letter Stagger */}
-                                                <h4
-                                                    className="font-black uppercase text-2xl mb-3 tracking-wider leading-tight overflow-hidden"
-                                                    style={{ color: textColors[colorIndex] }}
-                                                >
-                                                    {skill.split('').map((letter, i) => (
-                                                        <motion.span
-                                                            key={i}
-                                                            initial={{ opacity: 0, y: 20 }}
-                                                            whileInView={{ opacity: 1, y: 0 }}
-                                                            transition={{
-                                                                duration: 0.3,
-                                                                delay: skillIndex * 0.03 + 0.4 + (i * 0.02)
-                                                            }}
-                                                            viewport={{ once: true }}
-                                                            className="inline-block"
-                                                        >
-                                                            {letter === ' ' ? '\u00A0' : letter}
-                                                        </motion.span>
-                                                    ))}
-                                                </h4>
-
-                                                {/* Proficiency Display */}
-                                                <div className="flex items-end justify-between">
-                                                    <div>
-                                                        <motion.div
-                                                            initial={{ scale: 0 }}
-                                                            whileInView={{ scale: 1 }}
-                                                            transition={{
-                                                                duration: 0.5,
-                                                                delay: skillIndex * 0.03 + 0.6,
-                                                                type: "spring"
-                                                            }}
-                                                            viewport={{ once: true }}
-                                                            className="text-4xl font-black font-mono leading-none"
-                                                            style={{ color: accentColors[colorIndex] }}
-                                                        >
-                                                            {proficiency}
-                                                        </motion.div>
-                                                        <div
-                                                            className="text-xs font-mono uppercase tracking-widest mt-1"
-                                                            style={{ color: textColors[colorIndex], opacity: 0.6 }}
-                                                        >
-                                                            Proficiency
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Vertical Progress Bar with Fill Animation */}
-                                                    <div
-                                                        className="w-2 h-16 relative overflow-hidden"
-                                                        style={{ backgroundColor: `${textColors[colorIndex]}20` }}
-                                                    >
-                                                        <motion.div
-                                                            initial={{ height: 0 }}
-                                                            whileInView={{ height: `${proficiency}%` }}
-                                                            transition={{
-                                                                delay: skillIndex * 0.03 + 0.7,
-                                                                duration: 1,
-                                                                ease: "easeOut"
-                                                            }}
-                                                            viewport={{ once: true }}
-                                                            className="w-full absolute bottom-0"
-                                                            style={{ backgroundColor: accentColors[colorIndex] }}
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                {/* Animated Corner Accent */}
-                                                <motion.div
-                                                    initial={{ scale: 0 }}
-                                                    whileInView={{ scale: 1 }}
-                                                    transition={{ delay: skillIndex * 0.03 + 0.5 }}
-                                                    viewport={{ once: true }}
-                                                    className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 origin-bottom-right"
-                                                    style={{ borderColor: accentColors[colorIndex] }}
-                                                />
-
-                                                {/* Hover Glow with Pulse */}
-                                                <motion.div
-                                                    animate={{
-                                                        opacity: [0, 0.5, 0]
-                                                    }}
-                                                    transition={{
-                                                        duration: 2,
-                                                        repeat: Infinity,
-                                                        ease: "easeInOut"
-                                                    }}
-                                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                                                    style={{
-                                                        boxShadow: `inset 0 0 30px ${accentColors[colorIndex]}40`
-                                                    }}
-                                                />
-                                            </motion.div>
-                                        );
-                                    })}
-                                </div>
-
-                                {/* Decorative Line */}
-                                {catIndex < Object.entries(skills).length - 1 && (
-                                    <div className="mt-16 h-px bg-gradient-to-r from-transparent via-[#B80000] to-transparent"></div>
-                                )}
-                            </motion.div>
-                        );
-                    })}
+                    {Object.entries(skills).map(([category, items], catIndex) => (
+                        <SkillCategory
+                            key={category}
+                            category={category}
+                            items={items}
+                            catIndex={catIndex}
+                            skillIcons={skillIcons}
+                        />
+                    ))}
                 </div>
             </motion.div>
         </section>
